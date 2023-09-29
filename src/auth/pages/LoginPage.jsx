@@ -2,7 +2,10 @@ import { useForm } from "../../hooks";
 import { useDispatch, useSelector } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
 import { Google } from "@mui/icons-material";
-import { checkingAuthentication, startGoogleSignIn } from "../../store/auth";
+import {
+    startGoogleSignIn,
+    startLoginWithEmailPassword,
+} from "../../store/auth";
 import { Button, Grid, Link, TextField, Typography } from "@mui/material";
 import { AuthLayout } from "../layout/AuthLayout";
 import { useMemo } from "react";
@@ -21,7 +24,7 @@ export const LoginPage = () => {
 
     const onSubmit = (event) => {
         event.preventDefault();
-        dispatch(checkingAuthentication());
+        dispatch(startLoginWithEmailPassword({ email, password }));
     };
 
     const onGoogleSingIn = () => {
