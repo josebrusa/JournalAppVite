@@ -9,7 +9,7 @@ export const NothingSelectedView = () => {
             direction="column"
             alignItems="center"
             justifyContent="center"
-            className="box-shadow"
+            className="animate__animated animate__fadeIn animate__faster box-shadow"
             sx={{
                 minHeight: "calc(100vh - 110px)",
                 backgroundColor: "primary.main",
