@@ -14,12 +14,12 @@ export const JournalPage = () => {
     };
     return (
         <JournalLayout>
-            {active ? <NoteView /> : <NothingSelectedView />}
+            {!!active ? <NoteView /> : <NothingSelectedView />}
 
             <IconButton
                 onClick={onCLickNewNote}
                 size="large"
-                disable={isSaving}
+                disable={isSaving.toString()}
                 sx={{
                     color: "white",
                     backgroundColor: "error.main",
