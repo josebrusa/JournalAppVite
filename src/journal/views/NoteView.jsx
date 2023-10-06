@@ -2,7 +2,11 @@ import { useEffect, useMemo, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { ImageGallery } from "../components";
-import { satActiveNote, startSavingNote } from "../../store/journal";
+import {
+    satActiveNote,
+    startSavingNote,
+    startUpdloadingFiles,
+} from "../../store/journal";
 
 import { useForm } from "../../hooks/useForm";
 
@@ -45,7 +49,7 @@ export const NoteView = () => {
         if (target.files === 0) return;
         console.log("subiendo archivos");
 
-        // dispatch(startUpdloadingFiles(target.files))
+        dispatch(startUpdloadingFiles(target.files));
     };
 
     return (
