@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ImageGallery } from "../components";
 import {
     satActiveNote,
+    startDeletingNote,
     startSavingNote,
     startUpdloadingFiles,
 } from "../../store/journal";
@@ -15,6 +16,7 @@ import { UploadOutlined, SaveOutlined } from "@mui/icons-material";
 
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2";
+import { DeleteOutline } from "@mui/icons-material";
 
 export const NoteView = () => {
     const dispatch = useDispatch();
@@ -47,9 +49,12 @@ export const NoteView = () => {
 
     const onFileInputChange = ({ target }) => {
         if (target.files === 0) return;
-        console.log("subiendo archivos");
 
         dispatch(startUpdloadingFiles(target.files));
+    };
+
+    const onDelete = () => {
+        dispatch(startDeletingNote());
     };
 
     return (
@@ -114,6 +119,12 @@ export const NoteView = () => {
                     value={body}
                     onChange={onInputChange}
                 />
+            </Grid>
+            <Grid container justifyContent="end">
+                <Button onClick={onDelete} sx={{ mt: 2 }} color="error">
+                    <DeleteOutline />
+                    Borrar
+                </Button>
             </Grid>
             <ImageGallery images={note.imageUrls} />
         </Grid>
