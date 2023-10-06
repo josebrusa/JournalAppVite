@@ -1,16 +1,20 @@
-import { SaveOutlined } from "@mui/icons-material";
-import { Button, Grid, TextField, Typography } from "@mui/material";
-import { ImageGallery } from "../components";
 import { useForm } from "../../hooks/useForm";
+import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useMemo } from "react";
-import { useEffect } from "react";
-import { satActiveNote } from "../../store/journal";
-import { startSavingNote } from "../../store/journal";
+import { SaveOutlined } from "@mui/icons-material";
+import { satActiveNote, startSavingNote } from "../../store/journal";
+import { ImageGallery } from "../components";
+import { Button, Grid, TextField, Typography } from "@mui/material";
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2";
 
 export const NoteView = () => {
     const dispatch = useDispatch();
-    const { active: note } = useSelector((state) => state.journal);
+    const {
+        active: note,
+        messageSaved,
+        isSaving,
+    } = useSelector((state) => state.journal);
 
     const { body, title, date, onInputChange, formState } = useForm(note);
     const dateString = useMemo(() => {
@@ -21,6 +25,12 @@ export const NoteView = () => {
     useEffect(() => {
         dispatch(satActiveNote(formState));
     }, [formState]);
+
+    useEffect(() => {
+        if (messageSaved.length > 0) {
+            Swal.fire("Nota Actualizada", messageSaved, "success");
+        }
+    }, [messageSaved]);
 
     const onSaveNote = () => {
         dispatch(startSavingNote());
@@ -42,6 +52,7 @@ export const NoteView = () => {
             </Grid>
             <Grid item>
                 <Button
+                    disabled={isSaving}
                     onClick={onSaveNote}
                     color="primary"
                     sx={{ padding: 2 }}
