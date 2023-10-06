@@ -1,15 +1,20 @@
-import { useForm } from "../../hooks/useForm";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { SaveOutlined } from "@mui/icons-material";
-import { satActiveNote, startSavingNote } from "../../store/journal";
+
 import { ImageGallery } from "../components";
-import { Button, Grid, TextField, Typography } from "@mui/material";
+import { satActiveNote, startSavingNote } from "../../store/journal";
+
+import { useForm } from "../../hooks/useForm";
+
+import { Button, Grid, IconButton, TextField, Typography } from "@mui/material";
+import { UploadOutlined, SaveOutlined } from "@mui/icons-material";
+
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2";
 
 export const NoteView = () => {
     const dispatch = useDispatch();
+    const fileInputRef = useRef();
     const {
         active: note,
         messageSaved,
@@ -36,6 +41,13 @@ export const NoteView = () => {
         dispatch(startSavingNote());
     };
 
+    const onFileInputChange = ({ target }) => {
+        if (target.files === 0) return;
+        console.log("subiendo archivos");
+
+        // dispatch(startUpdloadingFiles(target.files))
+    };
+
     return (
         <Grid
             className="animate__animated animate__fadeIn animate__faster"
@@ -51,6 +63,20 @@ export const NoteView = () => {
                 </Typography>
             </Grid>
             <Grid item>
+                <input
+                    type="file"
+                    multiple
+                    ref={fileInputRef}
+                    onChange={onFileInputChange}
+                    style={{ display: "none" }}
+                />
+                <IconButton
+                    color="primary"
+                    disabled={isSaving}
+                    onClick={() => fileInputRef.current.click()}
+                >
+                    <UploadOutlined />
+                </IconButton>
                 <Button
                     disabled={isSaving}
                     onClick={onSaveNote}
